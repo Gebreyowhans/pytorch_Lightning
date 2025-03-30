@@ -1,0 +1,49 @@
+model:
+  name: "CIFAR10CNN"
+  learning_rate: 0.001
+  optimizer: "Adam"  # Options: adam, sgd
+  scheduler:
+    type: "ReduceLROnPlateau"  # Options: ReduceLROnPlateau, StepLR
+    factor: 0.1
+    patience: 5
+    step_size: 10  # Used for StepLR
+    gamma: 0.1     # Used for StepLR
+
+training:
+  num_epochs: 20
+  batch_size: 64
+  precision: 16  # Mixed precision training
+  gradient_accumulation: 4  # Accumulate gradients over batches
+  overfit_batches: 0  # Set > 0 for debugging
+  fast_dev_run: false  # Set to true for quick testing
+
+callbacks:
+  checkpoint:
+    dirpath: "checkpoints"
+    monitor: "val_loss"
+    save_top_k: 3
+    mode: "min"
+    filename: "cifar10-{epoch:02d}-{val_loss:.2f}-{val_acc:.2f}"
+  early_stopping:
+    monitor: "val_loss"
+    patience: 5
+    mode: "min"
+    verbose: false
+
+logger:
+  save_dir: "lightning_logs"
+  name: "cifar10_cnn"
+
+data:
+  dataset: "CIFAR10"
+  data_dir: "./data"
+  num_workers: 4
+  pin_memory: true
+  train_transforms:
+    - "RandomCrop(32, padding=4)"
+    - "RandomHorizontalFlip()"
+    - "ToTensor()"
+    - "Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))"
+  test_transforms:
+    - "ToTensor()"
+    - "Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))"

@@ -45,5 +45,18 @@ data:
     - "ToTensor()"
     - "Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))"
   test_transforms:
+    - "Resize((32, 32))"
     - "ToTensor()"
     - "Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))"
+  cifar10_classes:
+    - "airplane"
+    - "automobile"
+    - "bird"
+    - "cat"
+    - "deer"
+    - "dog"
+    - "frog"
+    - "horse"
+    - "ship"
+    - "truck"
+

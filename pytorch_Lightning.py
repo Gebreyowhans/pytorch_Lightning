@@ -87,8 +87,11 @@ class CIFAR10CNN(L.LightningModule):
         optimizer = getattr(torch.optim, self.optimizer_name)(
             self.parameters(), lr=self.learning_rate)
 
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        scheduler = getattr(torch.optim.lr_scheduler, self.model_params['scheduler']['type'])(
             optimizer, mode=self.mode, factor=self.factor, patience=self.patience)
+
+        # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        #     optimizer, mode=self.mode, factor=self.factor, patience=self.patience)
 
         return {
             "optimizer": optimizer,
@@ -119,6 +122,7 @@ def main():
     train_transforms = transforms.Compose([
         eval(transform) for transform in data_params['train_transforms']
     ])
+
     test_transforms = transforms.Compose([
         eval(transform) for transform in data_params['test_transforms']
     ])

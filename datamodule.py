@@ -15,18 +15,6 @@ class CIFAR10DataModule(L.LightningDataModule):
         self.num_workers = num_workers
         # self.pin_memory = pin_memory
 
-        # self.transform_train = transforms.Compose([
-        #     transforms.RandomCrop(32, padding=4),
-        #     transforms.RandomHorizontalFlip(),
-        #     transforms.ToTensor(),
-        #     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-        # ])
-
-        # self.transform_test = transforms.Compose([
-        #     transforms.ToTensor(),
-        #     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-        # ])
-
     def setup(self, stage: str):
         if stage == 'fit' or stage is None:
             self.train_dataset = datasets.CIFAR10(
